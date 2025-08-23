@@ -1,3 +1,5 @@
+
+
 const search = (teams,key) => {
   if (key === "") return teams;
   else return searchFilter(teams, key);
@@ -19,8 +21,9 @@ const searchInTeam = (name, key) => {
   return checkStr === lowerCaseKey || searchInTeam(lowerCaseName.slice(1), lowerCaseKey);
 }
 
-
+const editTeam = (id, list, newValue) => list.map((time) => time.id === id ? newValue : time);
 
 export const Library = {
   search,
+  editTeam
 };

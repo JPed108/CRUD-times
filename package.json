@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://github.com/JPed108/CRUD-times.git",
+  "homepage": "https://JPed108.github.io/CRUD-times",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

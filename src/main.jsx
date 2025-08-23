@@ -12,10 +12,11 @@ const router = createBrowserRouter([{
   children: [{
     path: '/:team',
     element: <Team />,
-    }
-  ],
-  },
-]);
+    }],
+  },],
+  {
+  basename: '/CRUD-times/',
+});
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
