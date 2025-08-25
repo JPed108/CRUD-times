@@ -230,7 +230,7 @@ function App() {
   const list = teams.map((team, index) => 
     <Link key={index} className = "w-32 aspect-square rounded-2xl border-2 flex flex-col items-center justify-evenly bg-gray-800 text-white cursor-pointer hover:bg-gray-900" 
           to={`/${team.id}`} onClick={() => setSelectedTeam(team.id)}>
-        <img src={team.imageUrl == "" ? null : team.imageUrl} className='w-16 h-auto pt-2'/>
+        <img src={team.imageUrl == "" ? null : team.imageUrl} alt={team.name} className='w-16 h-auto pt-2'/>
         {team.nome}
     </Link>
     )
