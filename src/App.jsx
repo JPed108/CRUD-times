@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, Outlet} from 'react-router-dom'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
@@ -7,7 +7,11 @@ import { Library } from './lib'
 
 function App() {
 
-const initialTeams = [
+  const [selectedTeam, setSelectedTeam] = useState(null);
+  const [searchText, setSearchText] = useState("");
+  const [soccerTeams, setSoccerTeams] = useState([]);
+
+  useEffect(() => {setSoccerTeams([
   {
     id: 0,
     nome: "Flamengo",
@@ -15,7 +19,8 @@ const initialTeams = [
     estadio: "Maracanã",
     titulosNacionais: 7,
     mascote: "Urubu",
-    curiosidade: "É um dos clubes mais populares do Brasil, com milhões de torcedores espalhados pelo país."
+    curiosidade: "É um dos clubes mais populares do Brasil, com milhões de torcedores espalhados pelo país.",
+    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/2/2e/Flamengo_braz_logo.svg"
   },
   {
     id: 1,
@@ -24,7 +29,8 @@ const initialTeams = [
     estadio: "Allianz Parque",
     titulosNacionais: 11,
     mascote: "Periquito",
-    curiosidade: "Conhecido como 'Verdão', tem uma das maiores torcidas organizadas do Brasil."
+    curiosidade: "Conhecido como 'Verdão', tem uma das maiores torcidas organizadas do Brasil.",
+    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/1/10/Palmeiras_logo.svg"
   },
   {
     id: 2,
@@ -33,7 +39,8 @@ const initialTeams = [
     estadio: "Neo Química Arena",
     titulosNacionais: 7,
     mascote: "Mosqueteiro",
-    curiosidade: "Venceu o Mundial de Clubes da FIFA em 2012."
+    curiosidade: "Venceu o Mundial de Clubes da FIFA em 2012.",
+    imageUrl: "https://upload.wikimedia.org/wikipedia/en/5/5a/Sport_Club_Corinthians_Paulista_crest.svg"
   },
   {
     id: 3,
@@ -42,7 +49,8 @@ const initialTeams = [
     estadio: "Morumbi",
     titulosNacionais: 6,
     mascote: "Soberano",
-    curiosidade: "É tricampeão da Copa Libertadores e Mundial de Clubes da FIFA."
+    curiosidade: "É tricampeão da Copa Libertadores e Mundial de Clubes da FIFA.",
+    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/6/6f/Brasao_do_Sao_Paulo_Futebol_Clube.svg"
   },
   {
     id: 4,
@@ -51,7 +59,8 @@ const initialTeams = [
     estadio: "Arena do Grêmio",
     titulosNacionais: 2,
     mascote: "Mosqueteiro",
-    curiosidade: "Foi campeão da Copa Libertadores da América três vezes."
+    curiosidade: "Foi campeão da Copa Libertadores da América três vezes.",
+    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/0/08/Gremio_logo.svg"
   },
   {
     id: 5,
@@ -60,7 +69,8 @@ const initialTeams = [
     estadio: "Beira-Rio",
     titulosNacionais: 3,
     mascote: "Saci",
-    curiosidade: "É conhecido pelo apelido 'Colorado' e tem duas Libertadores no currículo."
+    curiosidade: "É conhecido pelo apelido 'Colorado' e tem duas Libertadores no currículo.",
+    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/f/f1/Escudo_do_Sport_Club_Internacional.svg"
   },
   {
     id: 6,
@@ -69,7 +79,8 @@ const initialTeams = [
     estadio: "Mineirão",
     titulosNacionais: 3,
     mascote: "Galo",
-    curiosidade: "O 'Galo' venceu a Copa Libertadores em 2013."
+    curiosidade: "O 'Galo' venceu a Copa Libertadores em 2013.",
+    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/5/5f/Atletico_mineiro_galo.png"
   },
   {
     id: 7,
@@ -78,7 +89,8 @@ const initialTeams = [
     estadio: "Mineirão",
     titulosNacionais: 4,
     mascote: "Raposa",
-    curiosidade: "Foi campeão da Copa Libertadores em 1976 e 1997."
+    curiosidade: "Foi campeão da Copa Libertadores em 1976 e 1997.",
+    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/9/90/Cruzeiro_Esporte_Clube_%28logo%29.svg"
   },
   {
     id: 8,
@@ -87,7 +99,9 @@ const initialTeams = [
     estadio: "São Januário",
     titulosNacionais: 4,
     mascote: "Almirante",
-    curiosidade: "Tem tradição em revelar grandes jogadores e vencer torneios internacionais."
+    curiosidade: "Tem tradição em revelar grandes jogadores e vencer torneios internacionais.",
+    imageUrl: "https://upload.wikimedia.org/wikipedia/pt/a/ac/CRVascodaGama.png"
+
   },
   {
     id: 9,
@@ -96,7 +110,8 @@ const initialTeams = [
     estadio: "Nilton Santos",
     titulosNacionais: 2,
     mascote: "Estrela Solitária",
-    curiosidade: "É famoso por revelar craques como Garrincha."
+    curiosidade: "É famoso por revelar craques como Garrincha.",
+    imageUrl: ""
   },
   {
     id: 10,
@@ -105,7 +120,8 @@ const initialTeams = [
     estadio: "Maracanã",
     titulosNacionais: 4,
     mascote: "Guerreiro",
-    curiosidade: "O Fluminense tem uma das torcidas mais tradicionais do Rio e cores marcantes."
+    curiosidade: "O Fluminense tem uma das torcidas mais tradicionais do Rio e cores marcantes.",
+    imageUrl: ""
   },
   {
     id: 11,
@@ -114,7 +130,8 @@ const initialTeams = [
     estadio: "Vila Belmiro",
     titulosNacionais: 8,
     mascote: "Peixe",
-    curiosidade: "Foi o clube de Pelé e tem tradição ofensiva no futebol brasileiro."
+    curiosidade: "Foi o clube de Pelé e tem tradição ofensiva no futebol brasileiro.",
+    imageUrl: ""
   },
   {
     id: 12,
@@ -123,7 +140,8 @@ const initialTeams = [
     estadio: "Arena da Baixada",
     titulosNacionais: 1,
     mascote: "Capiatá",
-    curiosidade: "Conhecido pelo estádio moderno e inovação em treinos e gestão."
+    curiosidade: "Conhecido pelo estádio moderno e inovação em treinos e gestão.",
+    imageUrl: ""
   },
   {
     id: 13,
@@ -132,7 +150,8 @@ const initialTeams = [
     estadio: "Couto Pereira",
     titulosNacionais: 1,
     mascote: "Coxa-Branca",
-    curiosidade: "É o clube mais tradicional do Paraná."
+    curiosidade: "É o clube mais tradicional do Paraná.",
+    imageUrl: ""
   },
   {
     id: 14,
@@ -141,7 +160,8 @@ const initialTeams = [
     estadio: "Fonte Nova",
     titulosNacionais: 2,
     mascote: "Esquadrão",
-    curiosidade: "É o maior clube do Nordeste em torcida e títulos."
+    curiosidade: "É o maior clube do Nordeste em torcida e títulos.",
+    imageUrl: ""
   },
   {
     id: 15,
@@ -150,7 +170,8 @@ const initialTeams = [
     estadio: "Barradão",
     titulosNacionais: 0,
     mascote: "Leão",
-    curiosidade: "É conhecido como 'Leão da Barra' e tem rivalidade histórica com o Bahia."
+    curiosidade: "É conhecido como 'Leão da Barra' e tem rivalidade histórica com o Bahia.",
+    imageUrl: ""
   },
   {
     id: 16,
@@ -159,7 +180,8 @@ const initialTeams = [
     estadio: "Castelão",
     titulosNacionais: 0,
     mascote: "Vozão",
-    curiosidade: "Tem uma das torcidas mais apaixonadas do Nordeste."
+    curiosidade: "Tem uma das torcidas mais apaixonadas do Nordeste.",
+    imageUrl: ""
   },
   {
     id: 17,
@@ -168,7 +190,8 @@ const initialTeams = [
     estadio: "Castelão",
     titulosNacionais: 0,
     mascote: "Leão",
-    curiosidade: "Tem crescido muito nos últimos anos, participando de competições internacionais."
+    curiosidade: "Tem crescido muito nos últimos anos, participando de competições internacionais.",
+    imageUrl: ""
   },
   {
     id: 18,
@@ -177,7 +200,8 @@ const initialTeams = [
     estadio: "Ilha do Retiro",
     titulosNacionais: 1,
     mascote: "Leão",
-    curiosidade: "É o maior clube de Pernambuco, com grande rivalidade local."
+    curiosidade: "É o maior clube de Pernambuco, com grande rivalidade local.",
+    imageUrl: ""
   },
   {
     id: 19,
@@ -186,13 +210,10 @@ const initialTeams = [
     estadio: "Arruda",
     titulosNacionais: 0,
     mascote: "Cobra-Coral",
-    curiosidade: "Clube tradicional de Pernambuco, conhecido por sua torcida apaixonada."
+    curiosidade: "Clube tradicional de Pernambuco, conhecido por sua torcida apaixonada.",
+    imageUrl: ""
   }
-];
-
-  const [selectedTeam, setSelectedTeam] = useState(null);
-  const [searchText, setSearchText] = useState("");
-  const [soccerTeams, setSoccerTeams] = useState(initialTeams);
+])}, [])  
 
   const inputHandler = (e) => {
     console.log(e.target.value)
@@ -207,9 +228,10 @@ const initialTeams = [
   const teams = findTeamsWithKey(soccerTeams, searchText);
 
   const list = teams.map((team, index) => 
-    <Link key={index} className = "w-32 h-32 aspect-square rounded-2xl  border-2 flex items-end justify-center bg-gray-800 text-white cursor-pointer hover:bg-gray-900" 
+    <Link key={index} className = "w-32 aspect-square rounded-2xl border-2 flex flex-col items-center justify-evenly bg-gray-800 text-white cursor-pointer hover:bg-gray-900" 
           to={`/${team.id}`} onClick={() => setSelectedTeam(team.id)}>
-        {team.nome} 
+        <img src={team.imageUrl == "" ? null : team.imageUrl} className='w-16 h-auto pt-2'/>
+        {team.nome}
     </Link>
     )
 

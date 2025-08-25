@@ -34,7 +34,7 @@ function Team(){
       <div className="flex flex-col text-left p-2 gap-8 items-start">
         <button onClick={() => navigate('/')} className="absolute top-2 right-2 text-2xl font-bold text-gray-600 hover:text-black">✕</button>
         
-        <textarea className="resize-none text-6xl font-semibold border-none outline-0 w-full pl-8" readOnly={!isEditMode} onChange={(e)=>inputHandler("nome", e.target.value)} value={draftTeam.nome}/>
+        <div className="flex flex-row items-center"><img src={draftTeam.imageUrl} className="h-32 w-auto" /><textarea className="resize-none text-6xl font-semibold border-none outline-0 w-full pl-4 pt-16" readOnly={!isEditMode} onChange={(e)=>inputHandler("nome", e.target.value)} value={draftTeam.nome}/></div>
         <label className="flex items-start text-3xl w-full">Cidade: <textarea className="resize-none text-3xl border-none outline-0 w-full pl-4" readOnly={!isEditMode} onChange={(e)=>inputHandler("cidade", e.target.value)} value={draftTeam.cidade}/></label>
         <label className="flex items-start text-3xl w-full">Estádio: <textarea className="resize-none text-3xl border-none outline-0 w-full pl-4" readOnly={!isEditMode} onChange={(e)=>inputHandler("estadio", e.target.value)} value={draftTeam.estadio}/></label>
         <label className="flex items-start text-3xl w-full">Títulos: <input type="number" className="resize-none text-3xl border-none outline-0 w-full pl-4" readOnly={!isEditMode} onChange={(e)=>inputHandler("titulosNacionais", e.target.value)} value={draftTeam.titulosNacionais}/></label>

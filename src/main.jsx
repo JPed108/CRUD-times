@@ -1,22 +1,20 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import {createBrowserRouter, RouterProvider} from 'react-router-dom'
+import {createBrowserRouter, createHashRouter, RouterProvider} from 'react-router-dom'
 
 import './index.css'
 import App from './App.jsx'
 import Team from './Team.jsx'
 
-const router = createBrowserRouter([{
+const router = createHashRouter([{
   path: '/',
   element: <App />,
   children: [{
     path: '/:team',
     element: <Team />,
     }],
-  },],
-  {
-  basename: '/CRUD-times/',
-});
+  },]
+  );
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
