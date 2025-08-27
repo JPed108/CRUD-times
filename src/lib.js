@@ -5,14 +5,19 @@ const loadTeams = () => {
   return data ? JSON.parse(data) : null;
 };
 
-const saveTeams = (teams) =>
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(teams));
+const saveTeams = (teams) => {
+  if (teams.length > 0)
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(teams));
+};
 
 const clearTeams = () => {
   localStorage.removeItem(STORAGE_KEY);
 };
 
-const recalculateIds = (teams) => teams.map((team, index) => (team.id = index));
+const deleteTeam = (teams, teamId) => teams.filter((t) => t.id !== teamId);
+
+const recalculateIds = (teams) =>
+  teams.map((team, index) => ({ ...team, id: index }));
 
 const addTeam = (teams, newTeam) => {
   const newId = teams.length > 0 ? teams[teams.length - 1].id + 1 : 0;
@@ -128,8 +133,10 @@ export const Library = {
   editTeam,
   saveTeams,
   loadTeams,
+  deleteTeam,
   addTeam,
   clearTeams,
+  recalculateIds,
   separateTeamsIntoLeagues,
   getTeamsFromAPI,
 };

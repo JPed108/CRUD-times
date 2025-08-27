@@ -20,12 +20,10 @@ function ListOfTeams({ teams, setSelectedTeam }) {
   }, [teamsByLeague]);
 
   const clickHandler = (id) => {
-    console.log("CLICK");
     const toggle = isOpen.map((value, index) => {
       if (index === id) return !value;
       return value;
     });
-    console.log(toggle);
     setIsOpen(toggle);
   };
 
@@ -42,22 +40,42 @@ function ListOfTeams({ teams, setSelectedTeam }) {
 
       <div className="flex flex-row flex-wrap gap-5 items-start">
         <AnimatePresence>
-          {isOpen[index] &&
-            league.teams.map((team) => (
-              <Link
-                key={team.name}
-                className="h-30 aspect-square rounded-2xl border-2 flex flex-col items-center justify-evenly bg-gray-800 text-white cursor-pointer hover:bg-gray-900"
-                to={`/${team.id}`}
-                onClick={() => setSelectedTeam(team.id)}
-              >
-                <img
-                  src={team.logo}
-                  alt={team.name}
-                  className="w-14 h-auto pt-2"
-                />
-                {team.name}
-              </Link>
-            ))}
+          {isOpen[index] && (
+            <motion.div
+              key="expand"
+              initial={{
+                height: 0,
+                opacity: 1,
+                transition: { duration: 0.3, ease: "easeInOut" },
+              }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 1 }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+              className="overflow-hidden flex flex-row flex-wrap gap-4 justify-start rounded-2xl shadow-inner"
+            >
+              {league.teams.map((team) => (
+                <motion.div
+                  key={team.id}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Link
+                    key={team.name}
+                    className="h-30 aspect-square rounded-2xl border-2 flex flex-col items-center justify-evenly bg-gray-800 text-white cursor-pointer hover:bg-gray-900"
+                    to={`/team/${team.id}`}
+                    onClick={() => setSelectedTeam(team.id)}
+                  >
+                    <img
+                      src={team.logo}
+                      alt={team.name}
+                      className="w-14 h-auto pt-2"
+                    />
+                    {team.name}
+                  </Link>
+                </motion.div>
+              ))}
+            </motion.div>
+          )}
         </AnimatePresence>
       </div>
     </div>

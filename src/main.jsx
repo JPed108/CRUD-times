@@ -9,6 +9,7 @@ import {
 import "./index.css";
 import App from "./App.jsx";
 import Team from "./Team.jsx";
+import Chart from "./Chart.jsx";
 
 const router = createHashRouter([
   {
@@ -16,8 +17,12 @@ const router = createHashRouter([
     element: <App />,
     children: [
       {
-        path: "/:team",
+        path: "team/:team",
         element: <Team />,
+      },
+      {
+        path: ":chart",
+        element: <Chart />,
       },
     ],
   },
