@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "motion/react";
 import { Library } from "./lib";
+import getTeamsFromAPI from "./getTeamsFromAPI";
 
 function ControlButtons({ setSelectedTeam, setSoccerTeams, soccerTeams }) {
   const navigate = useNavigate();
@@ -11,8 +12,8 @@ function ControlButtons({ setSelectedTeam, setSoccerTeams, soccerTeams }) {
       console.log("Team exists");
       setSoccerTeams(teams);
     } else {
-      const key = prompt("Entre com a chave da API:");
-      Library.getTeamsFromAPI(key, setSoccerTeams);
+      getTeamsFromAPI(setSoccerTeams);
+      Library.saveTeams(soccerTeams);
       console.log("Team doesn't exist");
     }
   };
@@ -27,8 +28,8 @@ function ControlButtons({ setSelectedTeam, setSoccerTeams, soccerTeams }) {
   };
 
   const chartHandler = async () => {
-    const res = await fetch("/.netlify/functions/fetchSofa");
-    const data = await res.text();
+    const res = await fetch("/.netlify/functions/fetchApiData?league=72");
+    const data = await res.json();
     console.log(data);
   };
 

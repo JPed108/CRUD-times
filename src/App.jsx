@@ -11,6 +11,7 @@ function App() {
   const [searchText, setSearchText] = useState("");
   const [soccerTeams, setSoccerTeams] = useState([]);
   const [isChartMode, setIsChartMode] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
   const { pathname } = useLocation();
 
   useEffect(() => {
@@ -19,8 +20,9 @@ function App() {
   }, []);
 
   const inputHandler = (e) => {
-    console.log(e.target.value);
-    setSearchText(e.target.value);
+    const text = e.target.value;
+    setSearchText(text);
+    setIsSearching(text.length > 0);
   };
 
   const findTeamsWithKey = (teams, key) => {
@@ -28,7 +30,7 @@ function App() {
     return Library.search(teams, key);
   };
 
-  const teams = findTeamsWithKey(soccerTeams, searchText);
+  const displayTeams = findTeamsWithKey(soccerTeams, searchText);
 
   return (
     <div className="fixed left-0 top-0 flex flex-row w-full h-full">
@@ -49,7 +51,11 @@ function App() {
           placeholder="Pesquisar time..."
         />
         <div className="flex flex-col justify-items-center gap-4 overflow-y-auto [scrollbar-gutter:stable] pl-[5%] w-[95%] h-full">
-          <ListOfTeams teams={teams} setSelectedTeam={setSelectedTeam} />
+          <ListOfTeams
+            teams={displayTeams}
+            setSelectedTeam={setSelectedTeam}
+            isSearching={isSearching}
+          />
         </div>
       </div>
 
