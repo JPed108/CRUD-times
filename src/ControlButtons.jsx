@@ -26,6 +26,12 @@ function ControlButtons({ setSelectedTeam, setSoccerTeams, soccerTeams }) {
     else Library.saveTeams(teams);
   };
 
+  const chartHandler = async () => {
+    const res = await fetch("/.netlify/functions/fetchSofa");
+    const data = await res.json();
+    console.log("data:", data);
+  };
+
   return (
     <>
       <motion.div
@@ -69,7 +75,7 @@ function ControlButtons({ setSelectedTeam, setSoccerTeams, soccerTeams }) {
         whileHover={{ scale: 1.05, transition: { duration: 0.1 } }}
         whileTap={{ scale: 0.95, transition: { duration: 0.1 } }}
         className="text-white bg-gray-800 hover:bg-gray-900 w-32 h-[40px] rounded-2xl"
-        onClick={() => Library.testFn()}
+        onClick={chartHandler}
       >
         Gráfico
       </motion.button>
