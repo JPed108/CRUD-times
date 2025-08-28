@@ -128,6 +128,29 @@ const separateTeamsIntoLeagues = (teams) => {
   return teamsByLeague;
 };
 
+async function testFn() {
+  try {
+    console.log("Entering");
+    const res1 = await fetch(
+      "https://www.sofascore.com/api/v1/unique-tournament/325/season/72034/standings/total",
+      {
+        method: "GET",
+        headers: {
+          Host: "www.sofascore.com",
+          "Sec-Fetch-Dest": "empty",
+          "Sec-Fetch-Mode": "cors",
+          "Sec-Fetch-Site": "same-origin",
+        },
+      }
+    );
+    const response = await res1.json();
+
+    console.log("response:", response);
+  } catch (err) {
+    console.error("Error fetching data:", err);
+  }
+}
+
 export const Library = {
   search,
   editTeam,
@@ -139,4 +162,5 @@ export const Library = {
   recalculateIds,
   separateTeamsIntoLeagues,
   getTeamsFromAPI,
+  testFn,
 };

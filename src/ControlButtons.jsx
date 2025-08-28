@@ -69,7 +69,7 @@ function ControlButtons({ setSelectedTeam, setSoccerTeams, soccerTeams }) {
         whileHover={{ scale: 1.05, transition: { duration: 0.1 } }}
         whileTap={{ scale: 0.95, transition: { duration: 0.1 } }}
         className="text-white bg-gray-800 hover:bg-gray-900 w-32 h-[40px] rounded-2xl"
-        onClick={() => navigate(`/Chart`)}
+        onClick={() => Library.testFn()}
       >
         Gráfico
       </motion.button>
