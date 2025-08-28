@@ -29,9 +29,9 @@ function ControlButtons({ setSelectedTeam, setSoccerTeams, soccerTeams }) {
 
   const chartHandler = async () => {
     console.log("Here");
-    const res = await fetch("/.netlify/functions/fetchSofa");
-    const data = await res.text();
-    console.log("data:", data);
+    const res = await handler();
+    const data = await JSON.stringify(res);
+    console.log("data:", data.json());
   };
 
   return (
