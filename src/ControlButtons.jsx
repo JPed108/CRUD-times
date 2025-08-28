@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "motion/react";
 import { Library } from "./lib";
+import { handler } from "../netlify/functions/fetchSofa";
 
 function ControlButtons({ setSelectedTeam, setSoccerTeams, soccerTeams }) {
   const navigate = useNavigate();
@@ -27,8 +28,9 @@ function ControlButtons({ setSelectedTeam, setSoccerTeams, soccerTeams }) {
   };
 
   const chartHandler = async () => {
+    console.log("Here");
     const res = await fetch("/.netlify/functions/fetchSofa");
-    const data = await res.json();
+    const data = await res.text();
     console.log("data:", data);
   };
 
