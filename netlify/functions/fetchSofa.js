@@ -1,11 +1,11 @@
 // netlify/functions/fetchSofa.js
 export async function handler(event, context) {
   const res = await fetch(
-    "https://www.betano.bet.br/api/league/phaseStandings?sportId=1&leagueId=10016&gLeagueIds=10016&phaseId=2197105&req=la,s,stnf,c,mb",
+    "http://www.sofascore.com/api/v1/unique-tournament/325/season/72034/standings/total",
     {
       headers: {
         "User-Agent": "HTTPie",
-        host: "https://www.betano.bet.br",
+        host: "http://www.sofascore.com/",
       },
     }
   );
