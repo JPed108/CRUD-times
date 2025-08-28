@@ -5,7 +5,7 @@ export async function handler(event, context) {
     {
       headers: {
         "User-Agent": "HTTPie",
-        host: "http://www.betano.com/",
+        host: "https://www.betano.bet.br",
       },
     }
   );
