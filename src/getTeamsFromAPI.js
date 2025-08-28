@@ -10,6 +10,7 @@ const getTeamsFromAPI = async (setSoccerTeams) => {
         if (!response.ok) throw new Error(`Error: ${response.status}`);
 
         const data = await response.json();
+        console.log(data);
         return data;
       })
     );
