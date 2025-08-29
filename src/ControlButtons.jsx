@@ -1,9 +1,17 @@
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "motion/react";
 import { Library } from "./lib";
-import getTeamsFromAPI from "./getTeamsFromAPI";
+import "./getApiData";
+import { GetApiData } from "./getApiData";
+import { useState } from "react";
+import Modal from "./LeaguesToAdd";
 
-function ControlButtons({ setSelectedTeam, setSoccerTeams, soccerTeams }) {
+function ControlButtons({
+  setSelectedTeam,
+  setSoccerTeams,
+  soccerTeams,
+  setIsModalOpen,
+}) {
   const navigate = useNavigate();
 
   const loadTeamsHandler = () => {
@@ -12,7 +20,7 @@ function ControlButtons({ setSelectedTeam, setSoccerTeams, soccerTeams }) {
       console.log("Team exists");
       setSoccerTeams(teams);
     } else {
-      getTeamsFromAPI(setSoccerTeams);
+      GetApiData.getTeamsFromAPI(setSoccerTeams);
       Library.saveTeams(soccerTeams);
       console.log("Team doesn't exist");
     }
@@ -27,10 +35,12 @@ function ControlButtons({ setSelectedTeam, setSoccerTeams, soccerTeams }) {
     else Library.saveTeams(teams);
   };
 
-  const chartHandler = async () => {
-    const res = await fetch("/.netlify/functions/fetchApiData?league=72");
-    const data = await res.json();
-    console.log(data);
+  const chartHandler = () => {
+    console.log(soccerTeams);
+  };
+
+  const addLeagueHandler = () => {
+    setIsModalOpen(true);
   };
 
   return (
@@ -80,6 +90,24 @@ function ControlButtons({ setSelectedTeam, setSoccerTeams, soccerTeams }) {
       >
         Gráfico
       </motion.button>
+
+      <motion.button
+        whileHover={{ scale: 1.05, transition: { duration: 0.1 } }}
+        whileTap={{ scale: 0.95, transition: { duration: 0.1 } }}
+        className="text-white bg-gray-800 hover:bg-gray-900 min-w-32 p-4 h-[40px] rounded-2xl flex items-center justify-center"
+        onClick={chartHandler}
+      >
+        Remover campeonato
+      </motion.button>
+
+      <motion.div
+        whileHover={{ scale: 1.05, transition: { duration: 0.1 } }}
+        whileTap={{ scale: 0.95, transition: { duration: 0.1 } }}
+        className="text-white bg-gray-800 hover:bg-gray-900 min-w-32 p-4 h-[40px] rounded-2xl flex items-center justify-center"
+        onClick={addLeagueHandler}
+      >
+        Adicionar campeonato pela API
+      </motion.div>
     </>
   );
 }

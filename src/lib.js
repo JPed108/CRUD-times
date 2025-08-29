@@ -1,50 +1,65 @@
+/* Funções do CRUD*/
+//Chave do localStorage para armazenamento da lista de times
 const STORAGE_KEY = "storage::teams";
-
 const loadTeams = () => {
   const data = localStorage.getItem(STORAGE_KEY);
   return data ? JSON.parse(data) : null;
 };
+
+//Funções de salvar, deletar, adicionar e editar times na lista e limpar a lista de times.
 
 const saveTeams = (teams) => {
   if (teams.length > 0)
     localStorage.setItem(STORAGE_KEY, JSON.stringify(teams));
 };
 
-const clearTeams = () => {
-  localStorage.removeItem(STORAGE_KEY);
-};
-
 const deleteTeam = (teams, teamId) => teams.filter((t) => t.id !== teamId);
-
-const recalculateIds = (teams) =>
-  teams.map((team, index) => ({ ...team, id: index }));
 
 const addTeam = (teams, newTeam) => {
   const newId = teams.length > 0 ? teams[teams.length - 1].id + 1 : 0;
   return [...teams, { ...newTeam, id: newId }];
 };
 
-const search = (teams, key) => {
-  if (key === "") return teams;
-  else return searchFilter(teams, key);
-};
-
-const searchFilter = (teams, key) =>
-  teams.filter((team) => searchInTeam(team.name, key));
-
-const searchInTeam = (name, key) => {
-  if (name === "" || name.length < key.length) return false;
-  const lowerCaseName = name.toLowerCase();
-  const lowerCaseKey = key.toLowerCase();
-  const checkStr = lowerCaseName.slice(0, lowerCaseKey.length);
-  return (
-    checkStr === lowerCaseKey ||
-    searchInTeam(lowerCaseName.slice(1), lowerCaseKey)
-  );
+const addLeague = (currentTeams, teamsToAdd) => {
+  const newTeams = [...currentTeams, ...teamsToAdd];
+  const newTeamsCorrectId = recalculateIds(newTeams);
+  return newTeamsCorrectId;
 };
 
 const editTeam = (id, list, newValue) =>
   list.map((time) => (time.id === id ? newValue : time));
+
+const clearTeams = () => {
+  localStorage.removeItem(STORAGE_KEY);
+};
+
+//Função utilizada para recalcular os IDs dos times.
+const recalculateIds = (teams) =>
+  teams.map((team, index) => ({ ...team, id: index }));
+
+//Funções utilizadas para pesquisa de um time utilizando uma string
+const search = (teams, str) => {
+  if (str === "") return teams;
+  else return searchFilter(teams, str);
+};
+
+const searchFilter = (teams, str) => {
+  console.log(teams);
+  return teams.filter((team) => searchKeyInTeamName(team.name, str));
+};
+
+const searchKeyInTeamName = (name, str) => {
+  if (name === "" || name.length < str.length) return false;
+  const lowerCaseName = name.toLowerCase();
+  const lowerCaseKey = str.toLowerCase();
+  const checkStr = lowerCaseName.slice(0, lowerCaseKey.length);
+  return (
+    checkStr === lowerCaseKey ||
+    searchKeyInTeamName(lowerCaseName.slice(1), lowerCaseKey)
+  );
+};
+
+//Funções utilizadas para separar os times em ligas.
 
 const uniqueLeagues = (arrayOfTeams) => {
   return arrayOfTeams.reduce((acc, n) => {
@@ -74,6 +89,7 @@ export const Library = {
   loadTeams,
   deleteTeam,
   addTeam,
+  addLeague,
   clearTeams,
   recalculateIds,
   separateTeamsIntoLeagues,

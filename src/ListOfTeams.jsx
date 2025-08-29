@@ -66,34 +66,36 @@ function ListOfTeams({ teams, setSelectedTeam, isSearching }) {
             animate={{ height: isOpen[index] ? "auto" : 0, opacity: 1 }}
             exit={{ height: 0, opacity: 1 }}
             transition={{ duration: 0.2, ease: "easeInOut" }}
-            className="overflow-hidden flex flex-row flex-wrap gap-4 justify-start w-full"
+            className="overflow-hidden w-full"
           >
             {/*Link de cada time*/}
-            {league.teams.map((team) => (
-              <motion.div
-                key={team.id}
-                layout
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: "auto", opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.2, ease: "easeInOut" }}
-                className="bg-gray-800 text-white rounded"
-              >
-                <Link
-                  key={team.name}
-                  className="h-30 aspect-square rounded-2xl border-2 flex flex-col items-center justify-evenly bg-gray-800 text-white cursor-pointer hover:bg-gray-900"
-                  to={`/team/${team.id}`}
-                  onClick={() => setSelectedTeam(team.id)}
+            <div className="  gap-4 flex flex-wrap justify-start">
+              {league.teams.map((team) => (
+                <motion.div
+                  key={team.id}
+                  layout
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.2, ease: "easeInOut" }}
+                  className="bg-gray-800 text-white rounded-3xl overflow-hidden"
                 >
-                  <img
-                    src={team.logo}
-                    alt={team.name}
-                    className="w-14 h-auto pt-2"
-                  />
-                  {team.name}
-                </Link>
-              </motion.div>
-            ))}
+                  <Link
+                    key={team.name}
+                    className="h-32 aspect-square flex flex-col items-center justify-evenly bg-gray-800 text-white cursor-pointer hover:bg-gray-900"
+                    to={`/team/${team.id}`}
+                    onClick={() => setSelectedTeam(team.id)}
+                  >
+                    <img
+                      src={team.logo}
+                      alt={team.name}
+                      className="w-14 h-auto pt-2"
+                    />
+                    {team.name}
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
           </motion.div>
         }
       </div>
