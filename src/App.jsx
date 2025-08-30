@@ -69,7 +69,7 @@ function App() {
         </div>
       </div>
       {/*Outlet. Componente responsável por renderizar as páginas dos times e a página do gráfico.*/}
-      <Outlet context={{ soccerTeams, setSoccerTeams, teamsToChart }} />
+      <Outlet context={{ soccerTeams, setSoccerTeams }} />
     </div>
   );
 }

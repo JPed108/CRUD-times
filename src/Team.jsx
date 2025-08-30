@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useOutletContext, useNavigate, useParams, useLocation } from "react-router-dom";
 import { Library } from "./lib";
 import { motion, AnimatePresence } from "motion/react";
+import { Cell, Pie, PieChart } from "recharts";
 
 //Componente que mostra o time e as estatísticas.
 function Team() {
@@ -74,6 +75,14 @@ function Team() {
     setDraftTeam({ ...draftTeam, [key]: value });
   };
 
+  const chartData = team
+    ? [
+        { name: "Vitórias", value: team.wins, fill: "#71e53e" },
+        { name: "Empates", value: team.draws, fill: "#fff900" },
+        { name: "Derrotas", value: team.lose, fill: "#fa4e4e" },
+      ]
+    : null;
+
   // Não renderiza nada se não for um novo time e nenhum time estiver selecionado
   if (!isNewTeam && !team) return null;
 
@@ -84,9 +93,9 @@ function Team() {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.3 }}
-      className="flex flex-col gap-10"
+      className="flex flex-row gap-10 h-full w-[74%]"
     >
-      <div className="flex flex-col text-left p-2 gap-8 items-start w-full">
+      <div className="flex flex-col text-left p-2 gap-8 items-start w-full ">
         <button
           onClick={() => navigate("/")}
           className="fixed top-2 right-2 text-2xl font-bold text-gray-600 hover:text-black"
@@ -94,7 +103,7 @@ function Team() {
           ✕
         </button>
 
-        <div className="flex flex-row items-center">
+        <div className="flex flex-row items-center ">
           {!draftTeam.logo ? (
             <div
               onClick={() => {
@@ -108,7 +117,6 @@ function Team() {
           ) : (
             <img src={draftTeam.logo} alt={draftTeam.name} className="h-32 w-auto" />
           )}
-
           <textarea
             className={`resize-none text-6xl font-semibold border-none outline-0 w-full pl-4 pt-16 ${
               isEditMode ? `border-2` : ``
@@ -118,73 +126,113 @@ function Team() {
             value={draftTeam.name ?? ""}
           />
         </div>
-        <label className="flex items-start text-3xl w-full h-14">
-          Colocação:{" "}
-          <input
-            type="number"
-            className="resize-none text-3xl border-none outline-0 w-full pl-4"
-            readOnly={!isEditMode}
-            onChange={(e) => inputHandler("rank", Number(e.target.value))}
-            value={draftTeam.rank ?? 0}
-          />
-        </label>
-        <label className="flex items-start text-3xl w-full h-14">
-          Grupo:{" "}
-          <textarea
-            className="resize-none text-3xl border-none outline-0 w-full pl-4"
-            readOnly={!isEditMode}
-            onChange={(e) => inputHandler("group", e.target.value)}
-            value={draftTeam.group ?? ""}
-          />
-        </label>
-        <label className="flex items-start text-3xl w-full h-14">
-          Vitórias:{" "}
-          <input
-            type="number"
-            className="resize-none text-3xl border-none outline-0 w-full pl-4"
-            readOnly={!isEditMode}
-            onChange={(e) => inputHandler("wins", Number(e.target.value))}
-            value={draftTeam.wins ?? 0}
-          />
-        </label>
-        <label className="flex items-start text-3xl w-full h-14">
-          Derrotas:{" "}
-          <input
-            type="number"
-            className="resize-none text-3xl border-none outline-0 w-full pl-4"
-            readOnly={!isEditMode}
-            onChange={(e) => inputHandler("lose", Number(e.target.value))}
-            value={draftTeam.lose ?? 0}
-          />
-        </label>
-        <label className="flex items-start text-3xl w-full h-14">
-          Pontos:{" "}
-          <input
-            type="number"
-            className="resize-none text-3xl border-none outline-0 w-full pl-4"
-            readOnly={!isEditMode}
-            onChange={(e) => inputHandler("points", Number(e.target.value))}
-            value={draftTeam.points ?? 0}
-          />
-        </label>
-      </div>
-      <div className="flex justify-evenly">
-        <button
-          className={`text-white font-semibold  ${
-            isEditMode ? `bg-green-400 hover:bg-green-500` : `bg-amber-400 hover:bg-amber-300`
-          } rounded-lg h-10 w-30`}
-          onClick={editButtonHandler}
-        >
-          {" "}
-          {isEditMode ? "Salvar" : "Editar time"}
-        </button>
-        <button
-          onClick={deleteButtonHandler}
-          className="text-white font-semibold bg-red-400 hover:bg-red-300 rounded-lg h-10 w-30"
-        >
-          {" "}
-          Deletar time
-        </button>
+        <div className="flex flex-row gap-8">
+          <div className="flex flex-col gap-8">
+            <label className="flex items-start text-3xl w-full h-14">
+              Colocação:{" "}
+              <input
+                type="number"
+                className="resize-none text-3xl border-none outline-0 w-full pl-4"
+                readOnly={!isEditMode}
+                onChange={(e) => inputHandler("rank", Number(e.target.value))}
+                value={draftTeam.rank ?? 0}
+              />
+            </label>
+            <label className="flex items-start text-3xl w-full h-14">
+              Grupo:{" "}
+              <textarea
+                className="resize-none text-3xl border-none outline-0 w-full pl-4"
+                readOnly={!isEditMode}
+                onChange={(e) => inputHandler("group", e.target.value)}
+                value={draftTeam.group ?? ""}
+              />
+            </label>
+            <label className="flex items-start text-3xl w-full h-14">
+              Vitórias:{" "}
+              <input
+                type="number"
+                className="resize-none text-3xl border-none outline-0 w-full pl-4"
+                readOnly={!isEditMode}
+                onChange={(e) => inputHandler("wins", Number(e.target.value))}
+                value={draftTeam.wins ?? 0}
+              />
+            </label>
+            <label className="flex items-start text-3xl w-full h-14">
+              Derrotas:{" "}
+              <input
+                type="number"
+                className="resize-none text-3xl border-none outline-0 w-full pl-4"
+                readOnly={!isEditMode}
+                onChange={(e) => inputHandler("lose", Number(e.target.value))}
+                value={draftTeam.lose ?? 0}
+              />
+            </label>
+            <label className="flex items-start text-3xl w-full h-14">
+              Empates:{" "}
+              <input
+                type="number"
+                className="resize-none text-3xl border-none outline-0 w-full pl-4"
+                readOnly={!isEditMode}
+                onChange={(e) => inputHandler("draws", Number(e.target.value))}
+                value={draftTeam.draws ?? 0}
+              />
+            </label>
+            <label className="flex items-start text-3xl w-full h-14">
+              Pontos:{" "}
+              <input
+                type="number"
+                className="resize-none text-3xl border-none outline-0 w-full pl-4"
+                readOnly={!isEditMode}
+                onChange={(e) => inputHandler("points", Number(e.target.value))}
+                value={draftTeam.points ?? 0}
+              />
+            </label>
+          </div>
+          <div>
+            <div className="flex justify-center">
+              {/* Gráfico das vitórias, empates e derrotas */}
+              {chartData && (
+                <PieChart width={400} height={300}>
+                  <Pie
+                    data={chartData}
+                    dataKey={"value"}
+                    nameKey={"name"}
+                    cx="50%"
+                    cy="50%"
+                    outerRadius={100}
+                    fill="#8884d8"
+                    label={(x) => x.name}
+                    stroke="#000000"
+                    strokeWidth={1}
+                    isAnimationActive={false}
+                  >
+                    {chartData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} />
+                    ))}
+                  </Pie>
+                </PieChart>
+              )}
+            </div>
+          </div>
+        </div>
+        <div className="flex justify-evenly w-[74%]">
+          <button
+            className={`text-white font-semibold  ${
+              isEditMode ? `bg-green-400 hover:bg-green-500` : `bg-amber-400 hover:bg-amber-300`
+            } rounded-lg h-10 w-30`}
+            onClick={editButtonHandler}
+          >
+            {" "}
+            {isEditMode ? "Salvar" : "Editar time"}
+          </button>
+          <button
+            onClick={deleteButtonHandler}
+            className="text-white font-semibold bg-red-400 hover:bg-red-300 rounded-lg h-10 w-30"
+          >
+            {" "}
+            Deletar time
+          </button>
+        </div>
       </div>
     </motion.div>
   );
