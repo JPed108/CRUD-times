@@ -7,30 +7,37 @@ import { useState } from "react";
 import Modal from "./LeaguesToAdd";
 
 function ControlButtons({
-  setSelectedTeam,
   setSoccerTeams,
   soccerTeams,
   setIsModalOpen,
+  isRemovingLeague,
+  setIsRemovingLeague,
+  isLeagueOpen,
+  setIsLeagueOpen,
 }) {
+  // useNavigate é usado para navegar entre páginas.
   const navigate = useNavigate();
 
+  //Handler do botão Carregar times.
+  //Carrega os times do localStorage, se existirem.
   const loadTeamsHandler = () => {
     const teams = Library.loadTeams();
     if (teams) {
-      console.log("Team exists");
       setSoccerTeams(teams);
     } else {
-      GetApiData.getTeamsFromAPI(setSoccerTeams);
-      Library.saveTeams(soccerTeams);
-      console.log("Team doesn't exist");
+      alert("Armazenamento vazio!");
     }
   };
 
+  //Handler do botão Limpar times.
+  //Redefine a lista de times para uma lista vazia.
   const clearTeamsHandler = () => {
     setSoccerTeams([]);
   };
 
-  const saveTeamsHandler = (teams) => {
+  //Handler do botão Salvar alterações.
+  //Salva as alterações no localStorage.
+  const applyChangesHandler = (teams) => {
     if (teams.length === 0) Library.clearTeams();
     else Library.saveTeams(teams);
   };
@@ -39,12 +46,20 @@ function ControlButtons({
     console.log(soccerTeams);
   };
 
+  const removeLeagueHandler = () => {
+    setIsLeagueOpen(isLeagueOpen.map(() => false));
+    setIsRemovingLeague(!isRemovingLeague);
+  };
+
+  //Handler do botão Adicionar campeonatos pela API.
+  //Abre o modal de seleção de campeonatos.
   const addLeagueHandler = () => {
     setIsModalOpen(true);
   };
 
   return (
     <>
+      {/*Botão adicionar time*/}
       <motion.div
         whileHover={{ scale: 1.05, transition: { duration: 0.1 } }}
         whileTap={{ scale: 0.95, transition: { duration: 0.1 } }}
@@ -56,6 +71,7 @@ function ControlButtons({
         Adicionar Time
       </motion.div>
 
+      {/*Botão carregar times */}
       <motion.button
         whileHover={{ scale: 1.05, transition: { duration: 0.1 } }}
         whileTap={{ scale: 0.95, transition: { duration: 0.1 } }}
@@ -64,6 +80,8 @@ function ControlButtons({
       >
         Carregar Times
       </motion.button>
+
+      {/*Botão limpar times */}
       <motion.button
         whileHover={{ scale: 1.05, transition: { duration: 0.1 } }}
         whileTap={{ scale: 0.95, transition: { duration: 0.1 } }}
@@ -73,11 +91,12 @@ function ControlButtons({
         Limpar Times
       </motion.button>
 
+      {/*Botão salvar alterações */}
       <motion.button
         whileHover={{ scale: 1.05, transition: { duration: 0.1 } }}
         whileTap={{ scale: 0.95, transition: { duration: 0.1 } }}
         className="text-white bg-gray-800 hover:bg-gray-900 w-32 h-[40px] rounded-2xl"
-        onClick={() => saveTeamsHandler(soccerTeams)}
+        onClick={() => applyChangesHandler(soccerTeams)}
       >
         Salvar alterações
       </motion.button>
@@ -91,15 +110,19 @@ function ControlButtons({
         Gráfico
       </motion.button>
 
+      {/*Botão remover campeonatos*/}
       <motion.button
         whileHover={{ scale: 1.05, transition: { duration: 0.1 } }}
         whileTap={{ scale: 0.95, transition: { duration: 0.1 } }}
-        className="text-white bg-gray-800 hover:bg-gray-900 min-w-32 p-4 h-[40px] rounded-2xl flex items-center justify-center"
-        onClick={chartHandler}
+        className={`text-white ${
+          isRemovingLeague ? "bg-amber-400 hover:bg-amber-300" : "bg-gray-800 hover:bg-gray-900"
+        } w-48 p-4 h-[40px] rounded-2xl flex items-center justify-center`}
+        onClick={removeLeagueHandler}
       >
-        Remover campeonato
+        {isRemovingLeague ? "Cancelar" : "Remover campeonato"}
       </motion.button>
 
+      {/*Botão adicionar campeonatos*/}
       <motion.div
         whileHover={{ scale: 1.05, transition: { duration: 0.1 } }}
         whileTap={{ scale: 0.95, transition: { duration: 0.1 } }}

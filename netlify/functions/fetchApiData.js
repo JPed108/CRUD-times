@@ -1,5 +1,8 @@
+// Serverless function que chama a API do API-Sports usando a chave de API
+// armazenada de forma segura em variável de ambiente
+
 export async function handler(event, context) {
-  const apiKey = process.env.API_KEY;
+  const apiKey = process.env.API_KEY; // Chave da API
 
   const { endpoint, league, season, code } = event.queryStringParameters;
 
@@ -21,6 +24,7 @@ export async function handler(event, context) {
   const data = await response.json();
 
   return {
+    // Retorna a resposta da API.
     statusCode: 200,
     body: JSON.stringify(data),
   };

@@ -9,8 +9,7 @@ const loadTeams = () => {
 //Funções de salvar, deletar, adicionar e editar times na lista e limpar a lista de times.
 
 const saveTeams = (teams) => {
-  if (teams.length > 0)
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(teams));
+  if (teams.length > 0) localStorage.setItem(STORAGE_KEY, JSON.stringify(teams));
 };
 
 const deleteTeam = (teams, teamId) => teams.filter((t) => t.id !== teamId);
@@ -26,16 +25,16 @@ const addLeague = (currentTeams, teamsToAdd) => {
   return newTeamsCorrectId;
 };
 
-const editTeam = (id, list, newValue) =>
-  list.map((time) => (time.id === id ? newValue : time));
+const removeLeague = (teams, league) => teams.filter((x) => x.group !== league);
+
+const editTeam = (id, list, newValue) => list.map((time) => (time.id === id ? newValue : time));
 
 const clearTeams = () => {
   localStorage.removeItem(STORAGE_KEY);
 };
 
 //Função utilizada para recalcular os IDs dos times.
-const recalculateIds = (teams) =>
-  teams.map((team, index) => ({ ...team, id: index }));
+const recalculateIds = (teams) => teams.map((team, index) => ({ ...team, id: index }));
 
 //Funções utilizadas para pesquisa de um time utilizando uma string
 const search = (teams, str) => {
@@ -44,7 +43,6 @@ const search = (teams, str) => {
 };
 
 const searchFilter = (teams, str) => {
-  console.log(teams);
   return teams.filter((team) => searchKeyInTeamName(team.name, str));
 };
 
@@ -53,10 +51,7 @@ const searchKeyInTeamName = (name, str) => {
   const lowerCaseName = name.toLowerCase();
   const lowerCaseKey = str.toLowerCase();
   const checkStr = lowerCaseName.slice(0, lowerCaseKey.length);
-  return (
-    checkStr === lowerCaseKey ||
-    searchKeyInTeamName(lowerCaseName.slice(1), lowerCaseKey)
-  );
+  return checkStr === lowerCaseKey || searchKeyInTeamName(lowerCaseName.slice(1), lowerCaseKey);
 };
 
 //Funções utilizadas para separar os times em ligas.
@@ -90,6 +85,7 @@ export const Library = {
   deleteTeam,
   addTeam,
   addLeague,
+  removeLeague,
   clearTeams,
   recalculateIds,
   separateTeamsIntoLeagues,

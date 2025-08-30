@@ -1,4 +1,4 @@
-// Função assíncrona que chama uma serverless function (proxy) responsável por acessar a API do API-Sports.
+// Função assíncrona que chama a serverless function responsável por acessar a API do API-Sports.
 // A resposta é então processada e os dados tratados são retornados.
 
 import { Library } from "./lib";
@@ -6,9 +6,10 @@ import { Library } from "./lib";
 const getTeamsFromAPI = async (soccerTeams, setSoccerTeams, leagues) => {
   console.log(leagues);
   try {
+    //Promise.all
     const res = await Promise.all(
+      // Map para buscar os campeonatos passados em leagues.
       leagues.map(async (n) => {
-        // Map para buscar ambas as ligas
         const response = await fetch(
           `/.netlify/functions/fetchApiData?endpoint=standings&league=${n}&season=2023` // fetch da serverless function.
         );
@@ -54,11 +55,11 @@ const getTeamsFromAPI = async (soccerTeams, setSoccerTeams, leagues) => {
   }
 };
 
+//Função para buscar os campeonatos disponíveis na API.
+//Busca apenas os campeonatos brasileiros (code=br).
 const getLeaguesFromApi = async (setLeagues) => {
   try {
-    const response = await fetch(
-      `/.netlify/functions/fetchApiData?endpoint=leagues?code=br`
-    );
+    const response = await fetch(`/.netlify/functions/fetchApiData?endpoint=leagues?code=br`);
 
     if (!response.ok) {
       console.error("HTTP error:", response.status);
@@ -66,6 +67,8 @@ const getLeaguesFromApi = async (setLeagues) => {
     }
 
     const { response: data } = await response.json();
+
+    //Tratamento dos campeonatos
     const leagues = data.map((league) => {
       const out = {
         id: league.league.id,
@@ -75,6 +78,8 @@ const getLeaguesFromApi = async (setLeagues) => {
       return out;
     });
     setLeagues(leagues);
+
+    //Armazena os campeonatos no localStorage para evitar chamar a API outras vezes.
     localStorage.setItem("STORAGE::LEAGUES", JSON.stringify(leagues));
   } catch (err) {
     console.error("Fetch error:", err);

@@ -3,11 +3,13 @@ import { GetApiData } from "./getApiData";
 import { motion } from "motion/react";
 import { Library } from "./lib";
 
+//Elemento responsável por exibir a lista de campeonatos.
 function Modal({ onClose, soccerTeams, setSoccerTeams }) {
   const [leagues, setLeagues] = useState([]);
   const [selectedLeagues, setSelectedLeagues] = useState([]);
   const [searchText, setSearchText] = useState("");
 
+  //Busca os campeonatos armazenados no localStorage, se existirem.
   useEffect(() => {
     const storedLeagues = localStorage.getItem("STORAGE::LEAGUES");
     if (!storedLeagues) {
@@ -19,38 +21,37 @@ function Modal({ onClose, soccerTeams, setSoccerTeams }) {
     }
   }, []);
 
+  //Handler dos botões dos campeonatos
   const leagueClickHandler = (n) => {
-    setSelectedLeagues((last) =>
-      last.includes(n) ? last.filter((x) => x !== n) : [...last, n]
-    );
+    setSelectedLeagues((last) => (last.includes(n) ? last.filter((x) => x !== n) : [...last, n]));
   };
 
+  //Handler do botão de adicionar campeonatos selecionadas
   const addLeaguesHandler = () => {
     GetApiData.getTeamsFromAPI(soccerTeams, setSoccerTeams, selectedLeagues);
     onClose();
   };
 
+  //Caixa de busca dos campeonatos
   const inputHandler = (e) => {
     const text = e.target.value;
     setSearchText(text);
   };
 
-  const findLeagueWithKey = (leagues, key) => {
-    if (key === "") return leagues;
-    return Library.search(leagues, key);
-  };
+  //displayLeagues retorna todos os campeonatos caso o campo de busca esteja vazio, caso contrário retorna os resultados da busca.
+  const displayLeagues = searchText === "" ? leagues : Library.search(leagues, searchText);
 
-  const displayLeagues = findLeagueWithKey(leagues, searchText);
-
-  const list = () => (
-    <div
-      className="fixed inset-0 flex flex-col items-center justify-center bg-black/50 z-50"
-      onClick={onClose}
-    >
+  // Esse componente é dividido em quatro divs. Um do tamanho da tela, que detecta quando o clique ocorre fora do modal.
+  // Um que fica na parte superior do modal, com as bordas superiores arredondadas e contém a caixa de busca.
+  // Um central, que possui a lista de campeonatos.
+  // Um inferior com as bordas inferiores arredondadas, que contém o botão para adicionar o campeonato selecionado.
+  return (
+    <div className="fixed inset-0 flex flex-col items-center justify-center bg-black/50 z-50" onClick={onClose}>
       <div
         className="relative w-[50%] h-[6%] rounded-t-2xl bg-gray-800 flex items-center justify-start"
         onClick={(e) => e.stopPropagation()}
       >
+        {/*Campo de busca */}
         <input
           type="text"
           id="search_bar"
@@ -58,26 +59,20 @@ function Modal({ onClose, soccerTeams, setSoccerTeams }) {
           placeholder="Pesquisar campeonato..."
           onChange={inputHandler}
         />
-        <button
-          onClick={onClose}
-          className="absolute top-1 right-3 text-gray-500 hover:text-gray-700"
-        >
+        {/*Botão de fechar */}
+        <button onClick={onClose} className="absolute top-1 right-3 text-gray-500 hover:text-gray-700">
           ✖
         </button>
       </div>
-      <div
-        className="max-h-1/2 w-[50%] overflow-y-auto overflow-hidden"
-        onClick={(e) => e.stopPropagation()}
-      >
+      <div className="max-h-1/2 w-[50%] overflow-y-auto overflow-hidden" onClick={(e) => e.stopPropagation()}>
         <div className="bg-gray-800 p-6 relative flex flex-col gap-4">
+          {/*Lista dos campeonatos disponíveis na API*/}
           {displayLeagues.map((league) => (
             <motion.div
               whileHover={{ scale: 1.01 }}
               transition={{ duration: 0.2 }}
               className={`flex flex-row w-full items-center gap-4 text-2xl rounded-2xl bg-gray-700 hover:bg-gray-600 overflow-hidden shadow-lg ${
-                selectedLeagues.includes(league.id)
-                  ? `border-4 border-emerald-600`
-                  : ""
+                selectedLeagues.includes(league.id) ? `border-4 border-emerald-600` : ""
               }`}
               key={league.id}
               onClick={() => leagueClickHandler(league.id)}
@@ -104,8 +99,6 @@ function Modal({ onClose, soccerTeams, setSoccerTeams }) {
       </div>
     </div>
   );
-
-  return list();
 }
 
 export default Modal;
