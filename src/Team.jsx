@@ -53,7 +53,7 @@ function Team() {
     if (isNewTeam) {
       const newTeamList = Library.addTeam(soccerTeams, draftTeam);
       setSoccerTeams(newTeamList);
-      navigate(`/${newTeamList.filter((team) => team.name === draftTeam.name)[0].id}`);
+      navigate(`/team/${newTeamList.filter((team) => team.name === draftTeam.name)[0].id}`);
     } else if (isEditMode) {
       const newTeamList = Library.editTeam(draftTeam.id, soccerTeams, draftTeam);
       setSoccerTeams(newTeamList);

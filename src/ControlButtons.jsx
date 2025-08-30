@@ -44,6 +44,7 @@ function ControlButtons({
 
   const chartHandler = () => {
     console.log(soccerTeams);
+    navigate("/chart");
   };
 
   const removeLeagueHandler = () => {
