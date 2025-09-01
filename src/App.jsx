@@ -15,6 +15,7 @@ function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isRemovingLeague, setIsRemovingLeague] = useState(false);
   const [isLeagueOpen, setIsLeagueOpen] = useState([]);
+  const [teamsForChart, setTeamsForChart] = useState([]);
 
   //Carregar times do armazenamento local quando o elemento for carregado pela primeira vez.
   useEffect(() => {
@@ -50,6 +51,7 @@ function App() {
             setSoccerTeams={setSoccerTeams}
             soccerTeams={soccerTeams}
             setIsChartMode={setIsChartMode}
+            isChartMode={isChartMode}
             setIsModalOpen={setIsModalOpen}
             isRemovingLeague={isRemovingLeague}
             setIsRemovingLeague={setIsRemovingLeague}
@@ -65,11 +67,14 @@ function App() {
             isRemovingLeague={isRemovingLeague}
             isLeagueOpen={isLeagueOpen}
             setIsLeagueOpen={setIsLeagueOpen}
+            isChartMode={isChartMode}
+            teamsForChart={teamsForChart}
+            setTeamsForChart={setTeamsForChart}
           />
         </div>
       </div>
       {/*Outlet. Componente responsável por renderizar as páginas dos times e a página do gráfico.*/}
-      <Outlet context={{ soccerTeams, setSoccerTeams }} />
+      <Outlet context={{ soccerTeams, setSoccerTeams, teamsForChart }} />
     </div>
   );
 }

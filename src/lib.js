@@ -33,6 +33,10 @@ const clearTeams = () => {
   localStorage.removeItem(STORAGE_KEY);
 };
 
+const sort = (teams, key) => {
+  return teams.toSorted((a, b) => b[key] - a[key]);
+};
+
 //Função utilizada para recalcular os IDs dos times.
 const recalculateIds = (teams) => teams.map((team, index) => ({ ...team, id: index }));
 
@@ -87,6 +91,7 @@ export const Library = {
   addLeague,
   removeLeague,
   clearTeams,
+  sort,
   recalculateIds,
   separateTeamsIntoLeagues,
 };

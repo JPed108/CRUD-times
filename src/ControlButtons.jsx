@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { motion } from "motion/react";
 import { Library } from "./lib";
 import "./getApiData";
@@ -14,9 +14,14 @@ function ControlButtons({
   setIsRemovingLeague,
   isLeagueOpen,
   setIsLeagueOpen,
+  isChartMode,
+  setIsChartMode,
 }) {
   // useNavigate é usado para navegar entre páginas.
   const navigate = useNavigate();
+  const selectedTeam = useLocation().pathname;
+
+  const [lastTeamPath, setLastTeamPath] = useState("");
 
   //Handler do botão Carregar times.
   //Carrega os times do localStorage, se existirem.
@@ -44,7 +49,14 @@ function ControlButtons({
 
   const chartHandler = () => {
     console.log(soccerTeams);
-    navigate("/chart");
+    if (isChartMode) {
+      setLastTeamPath(lastTeamPath);
+    } else {
+      setLastTeamPath(selectedTeam);
+      navigate("/chart");
+    }
+
+    setIsChartMode(!isChartMode);
   };
 
   const removeLeagueHandler = () => {
@@ -105,10 +117,12 @@ function ControlButtons({
       <motion.button
         whileHover={{ scale: 1.05, transition: { duration: 0.1 } }}
         whileTap={{ scale: 0.95, transition: { duration: 0.1 } }}
-        className="text-white bg-gray-800 hover:bg-gray-900 w-32 h-[40px] rounded-2xl"
+        className={`text-white ${
+          isChartMode ? "bg-amber-400 hover:bg-amber-300" : "bg-gray-800 hover:bg-gray-900"
+        } w-32 h-[40px] rounded-2xl `}
         onClick={chartHandler}
       >
-        Gráfico
+        {isChartMode ? "Sair" : "Gráfico"}
       </motion.button>
 
       {/*Botão remover campeonatos*/}

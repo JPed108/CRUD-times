@@ -77,7 +77,7 @@ function Modal({ onClose, soccerTeams, setSoccerTeams }) {
               key={league.id}
               onClick={() => leagueClickHandler(league.id)}
             >
-              <img src={league.logo} alt={league.league} className="h-15" />
+              <img loading="lazy" src={league.logo} alt={league.league} className="h-15" />
               <div>{league.name}</div>
             </motion.div>
           ))}

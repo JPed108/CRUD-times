@@ -1,9 +1,18 @@
 import { useState, useEffect, useMemo } from "react";
 import { AnimatePresence, isPrimaryPointer, motion } from "motion/react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Library } from "./lib";
 
-function ListOfTeams({ soccerTeams, setSoccerTeams, isRemovingLeague, isLeagueOpen, setIsLeagueOpen }) {
+function ListOfTeams({
+  soccerTeams,
+  setSoccerTeams,
+  isRemovingLeague,
+  isLeagueOpen,
+  setIsLeagueOpen,
+  isChartMode,
+  teamsForChart,
+  setTeamsForChart,
+}) {
   const [searchText, setSearchText] = useState("");
 
   const [backupIsOpen, setBackupIsOpen] = useState([]);
@@ -29,6 +38,8 @@ function ListOfTeams({ soccerTeams, setSoccerTeams, isRemovingLeague, isLeagueOp
     }
   }, [isSearching]);
 
+  const navigate = useNavigate();
+
   // Handler dos botões de cada campeonato.
   // - Caso o modo de remoção não esteja ativo, alterna o estado do campeonato clicado.
   // - Caso o modo de remoção esteja ativo, remove o campeonato correspondente da lista de times.
@@ -51,6 +62,23 @@ function ListOfTeams({ soccerTeams, setSoccerTeams, isRemovingLeague, isLeagueOp
     const text = e.target.value;
     setSearchText(text);
     setIsSearching(text.length > 0);
+  };
+
+  //Controla o clique em cada botão dos times.
+  // Se não estiver em modo de gráfico, navega para a página do time.
+  // Em modo de gráfico, seleciona os times que serão inseridos no gráfico
+
+  const teamClickHandler = (team) => {
+    if (!isChartMode) {
+      navigate(`/team/${team.id}`);
+    } else {
+      const id = team.id;
+      const listOfTeamsForChart = teamsForChart.includes(id)
+        ? teamsForChart.filter((t) => t !== id)
+        : [...teamsForChart, id];
+      setTeamsForChart(listOfTeamsForChart);
+      console.log(teamsForChart);
+    }
   };
 
   //Número de campeonatos.
@@ -108,20 +136,20 @@ function ListOfTeams({ soccerTeams, setSoccerTeams, isRemovingLeague, isLeagueOp
                     <motion.div
                       key={team.id}
                       layout
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.2, ease: "easeInOut" }}
-                      className="bg-gray-800 text-white rounded-3xl overflow-hidden"
+                      whileHover={{ scale: 1.05 }}
+                      transition={{ duration: 0.1, ease: "easeInOut" }}
+                      className={`bg-gray-800 text-white rounded-3xl overflow-hidden  ${
+                        isChartMode && teamsForChart.includes(team.id) ? "ring-2 ring-green-400" : ""
+                      }`}
                     >
-                      <Link
+                      <div
                         key={team.name}
                         className="h-32 aspect-square flex flex-col items-center justify-evenly  text-white cursor-pointer bg-gray-800 hover:bg-gray-900"
-                        to={`/team/${team.id}`}
+                        onClick={() => teamClickHandler(team)}
                       >
                         <img src={team.logo} alt={team.name} className="w-14 h-auto pt-2" />
                         {team.name}
-                      </Link>
+                      </div>
                     </motion.div>
                   ))}
                 </div>

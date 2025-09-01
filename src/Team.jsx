@@ -126,8 +126,8 @@ function Team() {
             value={draftTeam.name ?? ""}
           />
         </div>
-        <div className="flex flex-row gap-8">
-          <div className="flex flex-col gap-8">
+        <div className="flex flex-row w-[90%]">
+          <div className="grid grid-cols-2 gap-8 pb-16">
             <label className="flex items-start text-3xl w-full h-14">
               Colocação:{" "}
               <input
@@ -185,6 +185,26 @@ function Team() {
                 readOnly={!isEditMode}
                 onChange={(e) => inputHandler("points", Number(e.target.value))}
                 value={draftTeam.points ?? 0}
+              />
+            </label>
+            <label className="flex items-start text-3xl w-full h-14">
+              Gols marcados:{" "}
+              <input
+                type="number"
+                className="resize-none text-3xl border-none outline-0 w-full pl-4"
+                readOnly={!isEditMode}
+                onChange={(e) => inputHandler("goalsFor", Number(e.target.value))}
+                value={draftTeam.goalsFor ?? 0}
+              />
+            </label>
+            <label className="flex items-start text-3xl w-full h-14">
+              Gols sofridos:{" "}
+              <input
+                type="number"
+                className="resize-none text-3xl border-none outline-0 w-full pl-4"
+                readOnly={!isEditMode}
+                onChange={(e) => inputHandler("goalsAgainst", Number(e.target.value))}
+                value={draftTeam.goalsAgainst ?? 0}
               />
             </label>
           </div>

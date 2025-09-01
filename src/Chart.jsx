@@ -3,12 +3,9 @@ import { useOutletContext } from "react-router-dom";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 
 function Chart() {
-  const { soccerTeams } = useOutletContext();
+  const { soccerTeams, setSoccerTeams, teamsForChart } = useOutletContext();
 
-  const teams = soccerTeams.map((team) => ({
-    name: team.name,
-    points: team.points,
-  }));
+  const teams = soccerTeams.filter((t) => teamsForChart.includes(t.id));
 
   // estados para guardadar os 2 times escolhidos
   const [team1, setTeam1] = useState("");
@@ -55,23 +52,6 @@ function Chart() {
             ))}
           </select>
         </div>
-
-        {/* Gráfico comparativo */}
-        {selectedTeams.length === 2 ? (
-          <div className="w-full h-[300px]">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart layout="vertical" data={selectedTeams} margin={{ top: 20, right: 30, left: 40, bottom: 20 }}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis type="number" />
-                <YAxis dataKey="name" type="category" />
-                <Tooltip />
-                <Bar dataKey="points" fill="#22C55E" radius={[0, 6, 6, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        ) : (
-          <p className="text-gray-600">Escolha dois times para comparar</p>
-        )}
       </div>
     </div>
   );
