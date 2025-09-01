@@ -76,7 +76,7 @@ function ControlButtons({
       <motion.div
         whileHover={{ scale: 1.05, transition: { duration: 0.1 } }}
         whileTap={{ scale: 0.95, transition: { duration: 0.1 } }}
-        className="text-white bg-gray-800 hover:bg-gray-900 w-32 h-[40px] rounded-2xl flex items-center justify-center"
+        className="text-white bg-gray-800 hover:bg-gray-900 w-32 h-[40px] rounded-2xl flex items-center justify-center cursor-pointer"
         onClick={() => {
           navigate(`/team/NewTeam`);
         }}
@@ -88,7 +88,7 @@ function ControlButtons({
       <motion.button
         whileHover={{ scale: 1.05, transition: { duration: 0.1 } }}
         whileTap={{ scale: 0.95, transition: { duration: 0.1 } }}
-        className="text-white bg-gray-800 hover:bg-gray-900 w-32 h-[40px] rounded-2xl"
+        className="text-white bg-gray-800 hover:bg-gray-900 w-32 h-[40px] rounded-2xl cursor-pointer"
         onClick={loadTeamsHandler}
       >
         Carregar Times
@@ -98,7 +98,7 @@ function ControlButtons({
       <motion.button
         whileHover={{ scale: 1.05, transition: { duration: 0.1 } }}
         whileTap={{ scale: 0.95, transition: { duration: 0.1 } }}
-        className="text-white bg-gray-800 hover:bg-gray-900 w-32 h-[40px] rounded-2xl"
+        className="text-white bg-gray-800 hover:bg-gray-900 w-32 h-[40px] rounded-2xl cursor-pointer"
         onClick={clearTeamsHandler}
       >
         Limpar Times
@@ -108,7 +108,7 @@ function ControlButtons({
       <motion.button
         whileHover={{ scale: 1.05, transition: { duration: 0.1 } }}
         whileTap={{ scale: 0.95, transition: { duration: 0.1 } }}
-        className="text-white bg-gray-800 hover:bg-gray-900 w-32 h-[40px] rounded-2xl"
+        className="text-white bg-gray-800 hover:bg-gray-900 w-32 h-[40px] rounded-2xl cursor-pointer"
         onClick={() => applyChangesHandler(soccerTeams)}
       >
         Salvar alterações
@@ -119,7 +119,7 @@ function ControlButtons({
         whileTap={{ scale: 0.95, transition: { duration: 0.1 } }}
         className={`text-white ${
           isChartMode ? "bg-amber-400 hover:bg-amber-300" : "bg-gray-800 hover:bg-gray-900"
-        } w-32 h-[40px] rounded-2xl `}
+        } w-32 h-[40px] rounded-2xl  cursor-pointer`}
         onClick={chartHandler}
       >
         {isChartMode ? "Sair" : "Gráfico"}
@@ -131,7 +131,7 @@ function ControlButtons({
         whileTap={{ scale: 0.95, transition: { duration: 0.1 } }}
         className={`text-white ${
           isRemovingLeague ? "bg-amber-400 hover:bg-amber-300" : "bg-gray-800 hover:bg-gray-900"
-        } w-48 p-4 h-[40px] rounded-2xl flex items-center justify-center`}
+        } w-48 p-4 h-[40px] rounded-2xl flex items-center justify-center cursor-pointer`}
         onClick={removeLeagueHandler}
       >
         {isRemovingLeague ? "Cancelar" : "Remover campeonato"}
@@ -141,7 +141,7 @@ function ControlButtons({
       <motion.div
         whileHover={{ scale: 1.05, transition: { duration: 0.1 } }}
         whileTap={{ scale: 0.95, transition: { duration: 0.1 } }}
-        className="text-white bg-gray-800 hover:bg-gray-900 min-w-32 p-4 h-[40px] rounded-2xl flex items-center justify-center"
+        className="text-white bg-gray-800 hover:bg-gray-900 min-w-32 p-4 h-[40px] rounded-2xl flex items-center justify-center cursor-pointer"
         onClick={addLeagueHandler}
       >
         Adicionar campeonato pela API

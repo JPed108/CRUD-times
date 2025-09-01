@@ -147,7 +147,7 @@ function ListOfTeams({
                         className="h-32 aspect-square flex flex-col items-center justify-evenly  text-white cursor-pointer bg-gray-800 hover:bg-gray-900"
                         onClick={() => teamClickHandler(team)}
                       >
-                        <img src={team.logo} alt={team.name} className="w-14 h-auto pt-2" />
+                        <img src={team.logo} alt={team.name} loading="lazy" className="w-14 h-auto pt-2" />
                         {team.name}
                       </div>
                     </motion.div>
